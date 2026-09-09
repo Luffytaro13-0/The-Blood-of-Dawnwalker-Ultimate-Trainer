@@ -170,5 +170,11 @@ Delete the tool folder. No registry changes are made.
 - 💬 **Share** with friends!
 
 
+## 🖥️ Web Control Panel (New!)
+
+We've added a sleek, interactive web dashboard to complement the trainer. You can use it to monitor and adjust key settings in real-time.
+
+[**Launch Web Control Panel**](dashboard.html)
+
 
 © 2026 • The Blood of Dawnwalker • Embrace the Curse
