@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood of Dawnwalker · Control Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a080e;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 1.5rem;
+        }
+
+        .panel {
+            max-width: 900px;
+            width: 100%;
+            background: linear-gradient(145deg, #15101e 0%, #1a1428 100%);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2.5rem 2.2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(180, 60, 90, 0.15);
+            transition: box-shadow 0.3s ease;
+            border: 1px solid rgba(220, 80, 120, 0.1);
+        }
+
+        .panel:hover {
+            box-shadow: 0 25px 70px rgba(160, 40, 70, 0.15), 0 0 0 1px rgba(220, 80, 120, 0.25);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.2rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 8px rgba(220, 50, 80, 0.5));
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #f2e8fa 0%, #d4b0d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge {
+            background: rgba(220, 70, 110, 0.15);
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #d47a9e;
+            border: 1px solid rgba(200, 80, 120, 0.2);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .card {
+            background: rgba(10, 6, 16, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 1.25rem 1.25rem 1.5rem;
+            border-radius: 1.8rem;
+            border: 1px solid rgba(180, 60, 100, 0.12);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(210, 80, 130, 0.3);
+            box-shadow: 0 12px 30px rgba(160, 40, 80, 0.15);
+            background: rgba(16, 8, 24, 0.7);
+        }
+
+        .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #a07a96;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ede0f0;
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card-value small {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #967a8e;
+            margin-left: 0.2rem;
+        }
+
+        .toggle-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.7rem;
+        }
+
+        .toggle {
+            background: rgba(30, 18, 40, 0.8);
+            border: 1px solid rgba(160, 70, 100, 0.25);
+            color: #c8b0c0;
+            padding: 0.3rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            letter-spacing: 0.02em;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+
+        .toggle.active {
+            background: rgba(200, 60, 100, 0.3);
+            border-color: #c06090;
+            color: #f2dce8;
+            box-shadow: 0 0 20px rgba(200, 60, 100, 0.15), inset 0 1px 0 rgba(255, 200, 220, 0.1);
+        }
+
+        .toggle:hover {
+            border-color: #c06090;
+            background: rgba(180, 50, 90, 0.2);
+        }
+
+        .slider-block {
+            margin-top: 0.9rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #b090a0;
+            margin-bottom: 0.3rem;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #2a1a30;
+            border-radius: 10px;
+            outline: none;
+            border: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #d47090, #b04070);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(200, 60, 100, 0.4);
+            border: 1px solid rgba(255, 200, 220, 0.2);
+            transition: 0.15s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid rgba(160, 70, 100, 0.3);
+            color: #c8b0c0;
+            padding: 0.6rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-primary {
+            background: rgba(180, 50, 90, 0.2);
+            border-color: #b05080;
+            color: #f0d8e0;
+        }
+
+        .btn-primary:hover {
+            background: rgba(200, 60, 100, 0.35);
+            border-color: #d06090;
+            box-shadow: 0 0 30px rgba(200, 60, 100, 0.15);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(120, 80, 100, 0.2);
+            border-color: #907080;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            color: #7a6070;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            background: #5a4050;
+        }
+
+        .dot.on {
+            background: #70c090;
+            box-shadow: 0 0 12px rgba(80, 200, 130, 0.4);
+            animation: pulse-dot 1.8s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+
+        @media (max-width: 550px) {
+            .panel { padding: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* элегантная анимация появления */
+        .panel {
+            animation: fadeSlide 0.6s ease-out forwards;
+        }
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .card {
+            animation: cardFade 0.5s ease forwards;
+            opacity: 0;
+        }
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.12s; }
+        .card:nth-child(3) { animation-delay: 0.19s; }
+        .card:nth-child(4) { animation-delay: 0.26s; }
+        @keyframes cardFade {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">🩸</span>
+                <span class="logo-text">Dawnwalker · Control</span>
+            </div>
+            <div class="status-indicator">
+                <span class="dot on"></span>
+                <span>trainer ready</span>
+                <span class="badge">v1.3</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-label">🛡️ health</div>
+                <div class="card-value">∞ <small>immortal</small></div>
+                <div class="toggle-group">
+                    <button class="toggle active">on</button>
+                    <button class="toggle">off</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">⚡ stamina</div>
+                <div class="card-value">∞ <small>unlimited</small></div>
+                <div class="toggle-group">
+                    <button class="toggle active">on</button>
+                    <button class="toggle">off</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">⚔️ damage</div>
+                <div class="card-value">×5 <small>multiplier</small></div>
+                <div class="slider-block">
+                    <div class="slider-label">
+                        <span>×1</span>
+                        <span>×10</span>
+                    </div>
+                    <input type="range" min="1" max="10" value="5" step="1">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">🕹️ game speed</div>
+                <div class="card-value">1.2× <small>time flow</small></div>
+                <div class="slider-block">
+                    <div class="slider-label">
+                        <span>0.5×</span>
+                        <span>2.0×</span>
+                    </div>
+                    <input type="range" min="5" max="20" value="12" step="1">
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <button class="btn btn-primary">⟳ apply all</button>
+                <button class="btn btn-secondary">↺ reset</button>
+            </div>
+            <div style="font-size: 0.7rem; color: #5a4060; letter-spacing: 0.03em; border-left: 1px solid #2a1a30; padding-left: 1rem;">
+                ⚡ changes are real‑time
+            </div>
+        </div>
+
+        <div style="margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid rgba(120, 60, 80, 0.2); font-size: 0.7rem; color: #5a4060; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <span>⚠️ use responsibly · single‑player only</span>
+            <span style="letter-spacing: 0.03em;">The Blood of Dawnwalker · 2026</span>
+        </div>
+    </div>
+</body>
+</html>
